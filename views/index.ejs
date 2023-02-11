@@ -1,0 +1,49 @@
+<html>
+
+<head></head>
+
+<body>
+  
+  <div style="text-align: center;">
+    <h3>Mehedi Software Hub</h3>
+    <h4>Trimohoni, Khilgaon, Dhaka, 1219</h4>
+    <p>mob:01777771654</p>
+
+  </div>
+  
+  <table style="width: 100%; border: 1px solid rgba(83, 83, 83, 0.259);">
+    <thead style="border: 1px solid rgb(188, 6, 188);background:rgb(187, 39, 187);color: aliceblue;width:100%;">
+      <tr>
+        <th scope="col" className="p-2">Id</th>
+        <th scope="col" className="p-2">Name</th>
+        <th scope="col" className="p-2">Description</th>
+        <th scope="col" className="p-2">More</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% datas.forEach((data,index)=>{ %>
+        <% if(index % 2===0) { %>
+          <tr style="background-color:rgba(187, 39, 187, 0.137);break-after: always;">
+            <% }else{ %>
+          <tr style="break-after: always;">
+            <% } %>
+              <th scope="col" className="p-2">
+                <%= data.id %>
+              </th>
+              <th scope="col" className="p-2">
+                <%= data.name %>
+              </th>
+              <th scope="col" className="p-2">
+                <%= data.description %>
+              </th>
+              <th scope="col" className="p-2">
+                <%= data.more %>
+              </th>
+          </tr>
+          <%}) %>
+
+    </tbody>
+  </table>
+</body>
+
+</html>

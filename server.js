@@ -10,7 +10,7 @@ app.set("view engine", 'ejs');
 
 app.get('/', async (req, res, next) => {
   // res.json({success: 'hi'})
-  const datas = new Array(20000).fill().map((value, id) => (({
+  const datas = new Array(100000).fill().map((value, id) => (({
     id: id,
     name: 'Mehedi Hasan Sumit',
     description: "A Software Engineer",
@@ -23,42 +23,49 @@ app.get('/', async (req, res, next) => {
     if (err) {
       return res.send({ err })
     }
-    console.log({ html })
     // enviar para o navegador
     // return res.send(html);
     htmlData = html
   });
-
+  
+  console.log('done render ejs');
+  
   const browser = await puppeteer.launch({
     headless: true,
     pipe: true,
-    // args: [
-    //   '--headless', '--disable-gpu', '--full-memory-crash-report', '--unlimited-storage',
-    //   '--no-sandbox', '--disable-setuid-sendbox', '--disable-dev-shm-usage'
-    // ]
+    args: [
+      '--headless', '--disable-gpu', '--full-memory-crash-report', '--unlimited-storage',
+      '--no-sandbox', '--disable-setuid-sendbox', '--disable-dev-shm-usage'
+    ]
   });
+  console.log('done puppet lunch');
   const page = await browser.newPage();
-
+  
+  console.log('done create page');
   // const html = fs.readFileSync('views/index.ejs', 'utf8');
-
-  await page.setContent(htmlData, {timeout:0 ,waitUntil: ['load','domcontentloaded','networkidle0','networkidle2'] });
-
+  
+  await page.setContent(htmlData, {timeout:0, waitUntil: ['load','domcontentloaded','networkidle0','networkidle2'] });
+  
+  console.log('done html data');
   // To reflect CSS used for screens instead of print
   await page.emulateMediaType('screen');
-
+  
   // Downlaod the PDF
   const pdf = await page.pdf({
     path: 'result.pdf',
     margin: { top: '100px', right: '50px', bottom: '100px', left: '50px' },
-    printBackground: true,
+    printBackground: false,
     format: 'A4',
+    timeout:0
   });
-
+  
+  console.log('done pdf');
   // Close the browser instance
   await browser.close();
-  // res.contentType('application/pdf');
-  // res.send(pdf);
-  res.json("success")
+  console.log('done close puppet');
+  res.contentType('application/pdf');
+  res.send(pdf);
+  // res.json("success")
 })
 
 app.post('/', async (req, res, next) => {
